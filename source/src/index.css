@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@layer base {
+  html { scroll-behavior: smooth; scroll-padding-top: 6rem; color-scheme: light; }
+  body { @apply m-0 bg-background font-sans text-textPrimary antialiased; }
+  * { box-sizing: border-box; }
+  ::selection { background: #E6CABA; color: #342B26; }
+  :focus-visible { outline: 2px solid #80513D; outline-offset: 5px; }
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: #F7F2EC; }
+  ::-webkit-scrollbar-thumb { background: #955B44; border-radius: 10px; }
+}
+@layer components {
+  .container-width { @apply max-w-6xl mx-auto px-6 md:px-8; }
+  .section-space { @apply py-20 md:py-28; }
+  .button { @apply inline-flex items-center justify-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold transition-colors; }
+  .button-primary { @apply button bg-accent text-white shadow-sm hover:bg-accentSoft; }
+  .button-secondary { @apply button border border-border bg-surface/80 hover:bg-surfaceHover hover:border-accent; }
+}
+.hero-grid { background: radial-gradient(ellipse at 85% 25%, #E6CABA66 0%, transparent 55%), radial-gradient(ellipse at 10% 90%, #EDDCD044 0%, transparent 50%); }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *,*::before,*::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }

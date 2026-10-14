@@ -1,0 +1,18 @@
+import { readFileSync, writeFileSync } from 'node:fs';
+import { resolve, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
+const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+let html = readFileSync(resolve(root, 'dist/index.html'), 'utf8');
+const script = html.match(/<script\b[^>]*src="([^"]+)"[^>]*><\/script>/);
+const stylesheet = html.match(/<link\b[^>]*rel="stylesheet"[^>]*href="([^"]+)"[^>]*>/);
+if (!script || !stylesheet) throw new Error('Build output is missing JavaScript or CSS.');
+const assetPath = url => resolve(root, 'dist', url.slice(url.indexOf('assets/')));
+const js = readFileSync(assetPath(script[1]), 'utf8');
+const css = readFileSync(assetPath(stylesheet[1]), 'utf8');
+if (/\bimport\s*\(/.test(js)) throw new Error('Dynamic imports must be embedded before export.');
+html = html.replace(script[0], '').replace(stylesheet[0], '<style>' + css.replaceAll('</style', '<\\/style') + '</style>');
+const icon = readFileSync(resolve(root, 'public/favicon.svg')).toString('base64');
+html = html.replace(/href="[^" ]*favicon\.svg"/, 'href="data:image/svg+xml;base64,' + icon + '"');
+html = html.replace('</body>', '<script type="module">' + js.replaceAll('</script', '<\\/script') + '</script></body>');
+writeFileSync(resolve(root, '../index.html'), html);
+console.log('Ready: open index.html in the parent folder.');

@@ -1,0 +1,1 @@
+export default function SectionHeading({ title, number }) { return <div className="mb-10 flex items-center gap-4"><span aria-hidden="true" className="text-xs font-medium tracking-widest text-accent">{number}</span><h2 className="text-3xl font-semibold tracking-tight md:text-4xl">{title}</h2><div aria-hidden="true" className="ml-2 h-px max-w-40 flex-1 bg-border" /></div>; }
